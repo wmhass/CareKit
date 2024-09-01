@@ -233,9 +233,9 @@ UIPageViewControllerDataSource, UIPageViewControllerDelegate {
     private func setInsets(for listViewController: OCKListViewController) {
         guard let listView = listViewController.view as? OCKListView else { fatalError("Unexpected type") }
         guard let headerView = view as? OCKHeaderBodyView else { fatalError("Unexpected type") }
-        let insets = UIEdgeInsets(top: headerView.headerInset, left: 0, bottom: 0, right: 0)
+        let insets = UIEdgeInsets(top: headerView.headerInset, left: 0, bottom: OCKHeaderBodyView.Constants.margin, right: 0)
         listView.scrollView.contentInset = insets
-        listView.scrollView.scrollIndicatorInsets = insets
+        listView.scrollView.scrollIndicatorInsets = UIEdgeInsets(top: headerView.headerHeight, left: 0, bottom: 0, right: 0)
     }
 
     /// Show the page for a particular date.
@@ -301,7 +301,7 @@ private class OCKDatedListViewController: OCKListViewController {
     init(date: Date) {
         self.date = date
         super.init(nibName: nil, bundle: nil)
-        listView.scrollView.automaticallyAdjustsScrollIndicatorInsets = false
+//        listView.scrollView.automaticallyAdjustsScrollIndicatorInsets = false
     }
 
     @available(*, unavailable)
@@ -336,4 +336,16 @@ private class OCKDateLabel: OCKLabel {
         textColor = style().color.label
     }
 }
+
+extension OCKDailyPageViewController {
+    open func reloadAllPages() {
+        pageViewController.setViewControllers(
+            [makePage(date: weekCalendarPageViewController.selectedDate)],
+            direction: .forward,
+            animated: false,
+            completion: nil
+        )
+    }
+}
+
 #endif

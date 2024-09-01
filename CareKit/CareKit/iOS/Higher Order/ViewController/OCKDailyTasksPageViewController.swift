@@ -61,6 +61,10 @@ open class OCKDailyTasksPageViewController: OCKDailyPageViewController {
 
     // MARK: - Methods
 
+    open func emptyLabel() -> UIView? {
+        return OCKEmptyLabel(textStyle: .subheadline, weight: .medium)
+    }
+
     private func fetchTasks(for date: Date, andPopulateIn listViewController: OCKListViewController) {
         let taskQuery = OCKTaskQuery(for: date)
         store.fetchAnyTasks(query: taskQuery, callbackQueue: .main) { [weak self] result in
@@ -71,9 +75,10 @@ open class OCKDailyTasksPageViewController: OCKDailyPageViewController {
 
                 // Show an empty label if there are no tasks
                 guard !tasks.isEmpty else {
-                    listViewController.listView.stackView.spacing = self.emptyLabelMargin
-                    let emptyLabel = OCKEmptyLabel(textStyle: .subheadline, weight: .medium)
-                    listViewController.appendView(emptyLabel, animated: false)
+                    if let emptyLabel = self.emptyLabel() {
+                        listViewController.listView.stackView.spacing = self.emptyLabelMargin
+                        listViewController.appendView(emptyLabel, animated: false)
+                    }
                     return
                 }
 
