@@ -109,6 +109,7 @@ open class OCKCompletionRingButton: OCKAnimatedButton<OCKStackView> {
     }
 
     private func updateRingColors() {
+        // TODO: Update here
         let cachedStyle = style()
         let grooveStrokeColor = completionState == .dimmed ? cachedStyle.color.customGray3 : cachedStyle.color.customGray
         let deselectedLabelColor = completionState == .dimmed ? cachedStyle.color.tertiaryLabel : cachedStyle.color.label
